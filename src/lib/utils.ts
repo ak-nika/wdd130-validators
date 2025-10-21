@@ -1,22 +1,11 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-type ValidatorMessage = {
-  type: "error" | "info" | "non-document-error";
-  subType?: string;
-  message: string;
-};
-
-type ValidatorResponse = {
-  url: string;
-  messages: ValidatorMessage[];
-};
-
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function countValidationResults(data: ValidatorResponse) {
+export function countHtmlValidationResults(data: HTMLValidatorResponse) {
   const counts = data.messages.reduce(
     (acc, msg) => {
       if (msg.type === "error" || msg.type === "non-document-error")

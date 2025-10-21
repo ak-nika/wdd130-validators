@@ -1,10 +1,10 @@
+import { Loader2 } from "lucide-react";
+
 const Loader = ({ text }: { text?: string }) => {
   return (
-    <div className="relative flex items-center justify-center">
-      <div className="size-80 border-2 border-muted-foreground border-y-0 animate-spin rounded-full" />
-      <span className="absolute font-semibold text-muted-foreground">
-        Loading {text}...
-      </span>
+    <div className="relative flex-center">
+      <Loader2 className="animate-spin" />
+      <span className="font-semibold">Loading {text}...</span>
     </div>
   );
 };

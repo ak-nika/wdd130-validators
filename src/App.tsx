@@ -3,6 +3,7 @@ import { ModeToggle } from "./components/ui/mode-toggle";
 import { Button } from "./components/ui/button";
 import { Input } from "./components/ui/input";
 import HTMLValidation from "./components/web/HTMLValidation";
+import CSSValidation from "./components/web/CSSValidation";
 
 const App = () => {
   const [username, setUsername] = useState("");
@@ -62,6 +63,7 @@ const App = () => {
       </section>
 
       <HTMLValidation urls={urlsToValidate} />
+      <CSSValidation urls={urlsToValidate} />
     </main>
   );
 };

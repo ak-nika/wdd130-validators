@@ -6,22 +6,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "../ui/accordion";
-import { countValidationResults } from "@/lib/utils";
+import { countHtmlValidationResults } from "@/lib/utils";
 import { CheckCircle2, InfoIcon, XCircleIcon } from "lucide-react";
-
-interface ValidationMessage {
-  url: string;
-  messages: {
-    type: "error" | "info" | "non-document-error";
-    subType?: "fatal" | "warning" | "internal" | "io" | "schema" | string;
-    message: string;
-  }[];
-  language?: string;
-}
 
 const HTMLValidation = ({ urls }: { urls: string[] }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [results, setResults] = useState<ValidationMessage[]>([]);
+  const [results, setResults] = useState<HTMLValidatorResponse[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -38,11 +28,10 @@ const HTMLValidation = ({ urls }: { urls: string[] }) => {
 
         for (const url of urls) {
           const res = await fetch(
-            `/api/validate?url=${encodeURIComponent(url)}`
+            `/api/validate-html?url=${encodeURIComponent(url)}`
           );
           const data = await res.json();
 
-          console.log(data);
           validationResults.push(data);
         }
 
@@ -75,7 +64,7 @@ const HTMLValidation = ({ urls }: { urls: string[] }) => {
 
           <Accordion type="multiple" className="w-full">
             {results.map((result, index) => {
-              const { errors, infos } = countValidationResults(result);
+              const { errors, infos } = countHtmlValidationResults(result);
 
               return (
                 <AccordionItem value={`item-${index}`} key={index}>

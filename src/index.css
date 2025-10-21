@@ -187,6 +187,10 @@
   @apply bg-red-200 dark:bg-red-900/40 text-red-600 dark:text-red-300 border border-red-600 dark:border-red-400 p-4 flex-center rounded-xl;
 }
 
+@utility warning {
+  @apply bg-yellow-200 dark:bg-yellow-900/40 text-yellow-600 dark:text-yellow-300 border border-yellow-600 dark:border-yellow-400 p-4 flex-center rounded-xl;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50 font-open-sans;
