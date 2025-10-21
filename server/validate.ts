@@ -1,8 +1,7 @@
 import express from "express";
 import fetch from "node-fetch";
 
-const app = express();
-const PORT = process.env.PORT || 5000;
+const router = express.Router();
 
 interface CSSValidatorError {
   message: string;
@@ -19,7 +18,7 @@ interface CSSValidatorResponse {
   warnings: CSSValidatorError[];
 }
 
-app.get("/api/validate-html", async (req, res) => {
+router.get("/validate-html", async (req, res) => {
   const url = req.query.url as string;
   if (!url) return res.status(400).json({ error: "Missing URL parameter" });
 
@@ -45,7 +44,7 @@ app.get("/api/validate-html", async (req, res) => {
   }
 });
 
-app.get("/api/validate-css", async (req, res) => {
+router.get("/validate-css", async (req, res) => {
   const url = req.query.url as string;
 
   if (!url) {
@@ -145,6 +144,4 @@ app.get("/api/validate-css", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`✅ Server running on http://localhost:${PORT}`);
-});
+export default router;
