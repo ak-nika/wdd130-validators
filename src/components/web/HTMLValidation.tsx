@@ -7,7 +7,8 @@ import {
   AccordionTrigger,
 } from "../ui/accordion";
 import { countHtmlValidationResults } from "@/lib/utils";
-import { CheckCircle2, InfoIcon, XCircleIcon } from "lucide-react";
+import { InfoIcon, XCircleIcon } from "lucide-react";
+import MessageBanner from "./MessageBanner";
 
 const HTMLValidation = ({ urls }: { urls: string[] }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -50,13 +51,9 @@ const HTMLValidation = ({ urls }: { urls: string[] }) => {
   }, [urls]);
 
   return (
-    <section className="container mx-auto mt-16 p-4">
+    <section className="container mx-auto mt-8 p-4">
       {isLoading && <Loader text="HTML Validation" />}
-      {error && !isLoading && (
-        <div className="p-4 font-semibold bg-red-200 text-red-600 w-full border border-red-600 rounded-md">
-          {error}
-        </div>
-      )}
+      {error && !isLoading && <div className="error">{error}</div>}
 
       {!isLoading && !error && results.length > 0 && (
         <div className="p-4">
@@ -97,33 +94,14 @@ const HTMLValidation = ({ urls }: { urls: string[] }) => {
                   <AccordionContent className="text-balance space-y-2">
                     {result.messages.length > 0 ? (
                       result.messages.map((message, index) => (
-                        <div
-                          className={`p-4 border rounded-md flex items-center gap-2 ${
-                            message.type === "error" ||
-                            message.type === "non-document-error"
-                              ? "error"
-                              : message.type === "info"
-                              ? "info"
-                              : "border-border bg-muted text-muted-foreground"
-                          }`}
-                          key={index}
-                        >
-                          <h3 className="font-semibold flex-center">
-                            {message.type === "error" ||
-                            message.type === "non-document-error" ? (
-                              <XCircleIcon />
-                            ) : (
-                              <InfoIcon />
-                            )}{" "}
-                            {message.type}
-                          </h3>
-                          <p>{message.message}</p>
-                        </div>
+                        <MessageBanner
+                          type={message.type}
+                          text={message.message}
+                          key={`message-${index}`}
+                        />
                       ))
                     ) : (
-                      <div className="success">
-                        <CheckCircle2 /> No errors found
-                      </div>
+                      <MessageBanner type="success" text="No errors found" />
                     )}
                   </AccordionContent>
                 </AccordionItem>

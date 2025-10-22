@@ -6,7 +6,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "../ui/accordion";
-import { CheckCircle2, TriangleAlert, XCircleIcon } from "lucide-react";
+import { TriangleAlert, XCircleIcon } from "lucide-react";
+import MessageBanner from "./MessageBanner";
 
 const CSSValidation = ({ urls }: { urls: string[] }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -90,24 +91,24 @@ const CSSValidation = ({ urls }: { urls: string[] }) => {
 
                   <AccordionContent className="text-balance space-y-2">
                     {result.errors.map((error, index) => (
-                      <div key={`error-${index}`} className="error">
-                        <XCircleIcon />
-                        {error.message} {error.source}
-                      </div>
+                      <MessageBanner
+                        type="error"
+                        text={`${error.message} ${error.source}`}
+                        key={`error-${index}`}
+                      />
                     ))}
 
                     {result.warnings.map((warning, index) => (
-                      <div key={`warning-${index}`} className="warning">
-                        <TriangleAlert />
-                        {warning.message} {warning.source}
-                      </div>
+                      <MessageBanner
+                        type="warning"
+                        text={`${warning.message} ${warning.source}`}
+                        key={`warning-${index}`}
+                      />
                     ))}
 
                     {result.errors.length === 0 &&
                       result.warnings.length === 0 && (
-                        <div className="success">
-                          <CheckCircle2 /> No errors found
-                        </div>
+                        <MessageBanner type="success" text="No errors found" />
                       )}
                   </AccordionContent>
                 </AccordionItem>
