@@ -18,6 +18,10 @@ interface CSSValidatorResponse {
   warnings: CSSValidatorError[];
 }
 
+router.get("/validate", (req, res) => {
+  res.json({ message: "General validate endpoint working ✅" });
+});
+
 router.get("/validate-html", async (req, res) => {
   const url = req.query.url as string;
   if (!url) return res.status(400).json({ error: "Missing URL parameter" });
@@ -38,8 +42,7 @@ router.get("/validate-html", async (req, res) => {
 
     const data = await response.json();
     res.json(data);
-  } catch (err) {
-    console.error("Validation error:", err);
+  } catch {
     res.status(500).json({ error: "Failed to validate URL" });
   }
 });
@@ -60,8 +63,6 @@ router.get("/validate-css", async (req, res) => {
 
     // --- Handle unreachable or broken URLs ---
     if (!response.ok) {
-      const text = await response.text();
-      console.error(`❌ W3C validator returned ${response.status}:`, text);
       const result: CSSValidatorResponse = {
         url,
         result: { errorcount: 1, warningcount: 0 },
@@ -80,8 +81,7 @@ router.get("/validate-css", async (req, res) => {
     let data: any;
     try {
       data = await response.json();
-    } catch (err) {
-      console.error("❌ Failed to parse CSS validator JSON:", err);
+    } catch {
       const result: CSSValidatorResponse = {
         url,
         result: { errorcount: 1, warningcount: 0 },
@@ -125,7 +125,6 @@ router.get("/validate-css", async (req, res) => {
 
     res.json(result);
   } catch (err: unknown) {
-    console.error("❌ CSS validation request failed:", err);
     const result: CSSValidatorResponse = {
       url,
       result: { errorcount: 1, warningcount: 0 },
